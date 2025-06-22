@@ -2,6 +2,8 @@ package com.ExamenT2.models;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,6 +33,7 @@ public class Compra {
 	private String direccionEntrega;
 	
 	@Column(name = "fecha_entrega", nullable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaEntrega;
 	
 	@Column(name = "estado", nullable = false)

@@ -18,6 +18,8 @@ import com.ExamenT2.repositories.IProveedorRepository;
 import com.ExamenT2.repositories.IRubroRepository;
 import com.ExamenT2.utils.Alert;
 
+
+
 @Controller
 @RequestMapping("/compras")
 public class ComprasController {
@@ -52,6 +54,27 @@ public class ComprasController {
 		Compra registrado = _compraRepository.save(compra);
 		
 		String mensaje = String.format("Producto con código %s registrado", registrado.getNroOrden());
+		flash.addFlashAttribute("alert", Alert.sweetAlertSuccess(mensaje));
+		return "redirect:/compras/listado";
+	}
+	
+	@GetMapping("/edicion/{id}")
+	public String edicion(@PathVariable Integer id, Model model) {
+		model.addAttribute("rubros", _rubroRepository.findAll());
+		model.addAttribute("proveedores", _proveedorRepository.findAll());
+		
+		Compra compraEncontrada = _compraRepository.findById(id).orElseThrow();
+		
+		model.addAttribute("compra", compraEncontrada);
+		return "compras/edicion";
+	}
+	
+	@PostMapping("/guardar")
+	public String guardar(@ModelAttribute Compra inventario, RedirectAttributes flash) {
+		
+		Compra registrado = _compraRepository.save(inventario);
+		
+		String mensaje = String.format("Inventario con codigo %s actualizado", registrado.getNroOrden());
 		flash.addFlashAttribute("alert", Alert.sweetAlertSuccess(mensaje));
 		return "redirect:/compras/listado";
 	}
